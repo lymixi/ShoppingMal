@@ -29,6 +29,6 @@ public class TypeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         Log.e(TAG,"主页面的Fragment的数据被初始化了");
-        textView.setText("主页面的内容");
+        textView.setText("类型的内容");
     }
 }
