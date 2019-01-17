@@ -14,7 +14,7 @@ import android.view.ViewGroup;
  */
 public abstract class BaseFragment extends Fragment {
 
-    private Context mContext;
+    public Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,10 +33,10 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        inintData();
+        initData();
     }
 
-    private void inintData() {
+    public void initData() {
 
     }
 }
