@@ -7,12 +7,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 import shoppingmall.guanxiang.com.shoppingmall.R;
 import shoppingmall.guanxiang.com.shoppingmall.base.BaseFragment;
+import shoppingmall.guanxiang.com.shoppingmall.home.adapter.HomeFragmentAdapter;
+import shoppingmall.guanxiang.com.shoppingmall.home.bean.ResultBeanData;
 import shoppingmall.guanxiang.com.shoppingmall.utils.Constants;
 
 /**
@@ -27,6 +30,9 @@ public class HomeFragment extends BaseFragment {
     private ImageView ib_top;
     private TextView tv_search_home;
     private TextView tv_message_home;
+    private HomeFragmentAdapter adapter;
+
+    private ResultBeanData.ResultBean resultBean;
 
     @Override
     public View initView() {
@@ -75,9 +81,28 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e(TAG,"首页请求数据成功=="+response);
+
+                        processData(response);
                     }
 
                 });
+    }
+
+    private void processData(String json) {
+        ResultBeanData resultBeanData = JSON.parseObject(json, ResultBeanData.class);
+        resultBean = resultBeanData.getResult();
+
+        if(resultBean!=null){
+            //有数据
+            //设置适配器
+            adapter = new HomeFragmentAdapter(mContext,resultBean);
+            rvHome.setAdapter(adapter);
+        }else{
+
+        }
+
+        Log.e(TAG,"解析成功=="+resultBean.getHot_info().get(0).getName());
+
     }
 
 
