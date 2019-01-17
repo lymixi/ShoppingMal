@@ -7,8 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import okhttp3.Call;
 import shoppingmall.guanxiang.com.shoppingmall.R;
 import shoppingmall.guanxiang.com.shoppingmall.base.BaseFragment;
+import shoppingmall.guanxiang.com.shoppingmall.utils.Constants;
 
 /**
  * @author liming
@@ -42,9 +47,38 @@ public class HomeFragment extends BaseFragment {
         super.initData();
         Log.e(TAG, "主页数据被初始化了");
         //联网请求主页的数据
-//        getDataFromNet();
+        getDataFromNet();
+
     }
 
+    private void getDataFromNet() {
+        String url = Constants.HOME_URL;
+        OkHttpUtils
+                .get()
+                .url(url)
+                .addParams("username", "hyman")
+                .addParams("password", "123")
+                .build()
+                .execute(new StringCallback()
+                {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e(TAG,"首页请求数据失败=="+e.getMessage());
+
+                    }
+
+                    /**
+                     * 联网成功的时候回调
+                     * @param response
+                     * @param id
+                     */
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e(TAG,"首页请求数据成功=="+response);
+                    }
+
+                });
+    }
 
 
     private void initListener() {
