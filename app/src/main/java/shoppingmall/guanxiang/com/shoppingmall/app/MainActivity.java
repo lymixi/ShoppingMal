@@ -1,9 +1,11 @@
-package shoppingmall.guanxiang.com.shoppingmall;
+package shoppingmall.guanxiang.com.shoppingmall.app;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import shoppingmall.guanxiang.com.shoppingmall.R;
+
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
