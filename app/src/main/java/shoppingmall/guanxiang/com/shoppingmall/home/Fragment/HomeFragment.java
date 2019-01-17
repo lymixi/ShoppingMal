@@ -1,5 +1,6 @@
 package shoppingmall.guanxiang.com.shoppingmall.home.Fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -97,7 +98,11 @@ public class HomeFragment extends BaseFragment {
             //设置适配器
             adapter = new HomeFragmentAdapter(mContext,resultBean);
             rvHome.setAdapter(adapter);
+
+            //设置布局管理者
+            rvHome.setLayoutManager(new GridLayoutManager(mContext,1));
         }else{
+            //没有数据
 
         }
 

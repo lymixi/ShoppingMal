@@ -28,7 +28,7 @@ public class MainActivity extends FragmentActivity {
 
     private int position = 0;
     /**
-     * 缓存的fragment
+     * 缓存的fragment,上一次fragment
      */
     private Fragment tempFragment;
 
