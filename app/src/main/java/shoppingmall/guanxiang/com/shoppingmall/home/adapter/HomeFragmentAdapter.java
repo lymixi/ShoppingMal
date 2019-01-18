@@ -8,9 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,6 +103,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new ActViewHolder(mContext,mLayoutInflater.inflate(R.layout.act_item,null));
         }else if(viewType == SECKLL){
             return new SeckillViewHolder(mContext,mLayoutInflater.inflate(R.layout.seckill_item,null));
+        }else if(viewType == RECOMMEND){
+            return new RecommendViewHolder(mContext,mLayoutInflater.inflate(R.layout.recommend_item,null));
+        }else if(viewType == HOT){
+            return new HotViewHolder(mContext,mLayoutInflater.inflate(R.layout.hot_item,null));
         }
 
 
@@ -127,6 +133,63 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }else if(getItemViewType(position)==SECKLL){
             SeckillViewHolder seckillViewHolder = (SeckillViewHolder) viewHolder;
             seckillViewHolder.setData(resultBean.getSeckill_info());
+        }else if(getItemViewType(position)==RECOMMEND){
+            RecommendViewHolder recommendViewHolder = (RecommendViewHolder) viewHolder;
+            recommendViewHolder.setData(resultBean.getRecommend_info());
+        }else if(getItemViewType(position)==HOT){
+            HotViewHolder hotViewHolder = (HotViewHolder) viewHolder;
+            hotViewHolder.setData(resultBean.getHot_info());
+        }
+    }
+
+    class HotViewHolder extends RecyclerView.ViewHolder{
+        private Context mContext;
+        private TextView tv_more_hot;
+        private GridView gv_hot;
+        public HotViewHolder(Context mContext, View itemView) {
+            super(itemView);
+            this.mContext = mContext;
+            this.tv_more_hot = itemView.findViewById(R.id.tv_more_hot);
+            this.gv_hot = itemView.findViewById(R.id.gv_hot);
+
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
+            //1.得到数据
+            //设置适配器
+            HotGridViewAdapter adapter = new HotGridViewAdapter(mContext,hot_info);
+            gv_hot.setAdapter(adapter);
+        }
+    }
+
+    class RecommendViewHolder extends RecyclerView.ViewHolder{
+
+        private final String TAG = RecommendViewHolder.class.getSimpleName();
+        private Context mContext;
+        private TextView tv_more_recommend;
+        private GridView gv_recommend;
+
+        private RecommendGridViewAdapter adapter;
+
+        public RecommendViewHolder(final Context mContext, View itemView) {
+            super(itemView);
+            this.mContext = mContext;
+            tv_more_recommend = itemView.findViewById(R.id.tv_more_recommend);
+            gv_recommend = itemView.findViewById(R.id.gv_recommend);
+            gv_recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext,"position="+position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        public void setData(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
+            //1有数据了
+            //设置适配器
+            Log.e(TAG,"recommend_info="+recommend_info);
+            adapter = new RecommendGridViewAdapter(mContext,recommend_info);
+            gv_recommend.setAdapter(adapter);
         }
     }
 
@@ -350,6 +413,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
      */
     @Override
     public int getItemCount() {
-        return 4;
+        return 6;
     }
 }
