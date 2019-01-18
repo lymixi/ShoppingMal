@@ -18,6 +18,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.listener.OnLoadImageListener;
+import com.youth.banner.transformer.ScaleInOutTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
         public void setData(final List<ResultBeanData.ResultBean.ActInfoBean> act_info) {
             act_viewpager.setPageMargin(60);
+            act_viewpager.setOffscreenPageLimit(3);//>=3
+            //setPageTransformer 决定动画效果
+            act_viewpager.setPageTransformer(true, new ScaleInOutTransformer());
+
 
             //1有数据了
             //2设置适配器
