@@ -1,6 +1,8 @@
 package shoppingmall.guanxiang.com.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -22,7 +24,9 @@ import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.listener.OnLoadImageListener;
 import com.youth.banner.transformer.ScaleInOutTransformer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import shoppingmall.guanxiang.com.shoppingmall.R;
@@ -126,12 +130,38 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }
     }
 
+
     class SeckillViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_time_seckill;
+        public TextView tv_time_seckill;
         private TextView tv_more_seckill;
         private RecyclerView rv_seckill;
         private Context mContext;
         private SeckillRecyclerViewAdapter adapter;
+
+        /**
+         * 还相差多少时间
+         */
+        private long dt=0;
+
+
+        Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                dt = dt-1000;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                String time = simpleDateFormat.format(new Date(dt));
+                tv_time_seckill.setText(time);
+
+                handler.removeMessages(0);
+                handler.sendEmptyMessageDelayed(0,1000);
+                if(dt <= 0){
+                    handler.removeCallbacksAndMessages(null);
+                }
+            }
+        };
+
 
         public SeckillViewHolder(Context mContext, View itemView) {
             super(itemView);
@@ -157,7 +187,13 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
                 }
             });
 
+            //秒杀倒计时-毫秒
+            dt = Integer.valueOf(seckill_info.getEnd_time())-Integer.valueOf(seckill_info.getStart_time());
+
+            handler.sendEmptyMessageDelayed(0,1000);
+
         }
+
     }
 
     class ActViewHolder extends RecyclerView.ViewHolder{
