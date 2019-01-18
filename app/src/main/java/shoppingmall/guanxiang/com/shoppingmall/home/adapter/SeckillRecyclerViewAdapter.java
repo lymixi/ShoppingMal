@@ -63,8 +63,36 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
             tv_cover_price = itemView.findViewById(R.id.tv_cover_price);
             tv_origin_price = itemView.findViewById(R.id.tv_origin_price);
 
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(mContext,"秒杀="+getLayoutPosition(), Toast.LENGTH_SHORT).show();
+                    if(onSeckillRecyclerView != null){
+                        onSeckillRecyclerView.onItemClick(getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 
+    /**
+     * 监听器
+     */
+    public interface OnSeckillRecyclerView{
+        /**
+         * 当某条被点击的时候
+         * @param position
+         */
+        public void onItemClick(int position);
+    }
+
+    private OnSeckillRecyclerView onSeckillRecyclerView;
+
+    /**
+     * 设置item监听
+     * @param onSeckillRecyclerView
+     */
+    public void setOnSeckillRecyclerView(OnSeckillRecyclerView onSeckillRecyclerView) {
+        this.onSeckillRecyclerView = onSeckillRecyclerView;
+    }
 }

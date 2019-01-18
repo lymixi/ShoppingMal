@@ -149,6 +149,14 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
 
             //设置布局管理齐
             rv_seckill.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            //设置itemd的点击事件
+            adapter.setOnSeckillRecyclerView(new SeckillRecyclerViewAdapter.OnSeckillRecyclerView() {
+                @Override
+                public void onItemClick(int position) {
+                    Toast.makeText(mContext,"秒杀="+position, Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     }
 
