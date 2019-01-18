@@ -146,12 +146,18 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         private Context mContext;
         private TextView tv_more_hot;
         private GridView gv_hot;
-        public HotViewHolder(Context mContext, View itemView) {
+        public HotViewHolder(final Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
             this.tv_more_hot = itemView.findViewById(R.id.tv_more_hot);
             this.gv_hot = itemView.findViewById(R.id.gv_hot);
 
+            gv_hot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext,"position="+position, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void setData(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
