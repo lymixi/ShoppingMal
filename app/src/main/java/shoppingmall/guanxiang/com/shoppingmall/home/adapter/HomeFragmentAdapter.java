@@ -2,6 +2,8 @@ package shoppingmall.guanxiang.com.shoppingmall.home.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +90,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
             return new BannerViewHolder(mContext,mLayoutInflater.inflate(R.layout.banner_viewpager,null));
         }else if(viewType == CHANNEL){
             return new ChannelViewHolder(mContext,mLayoutInflater.inflate(R.layout.channel_item,null));
+        }else if(viewType == ACT){
+            return new ActViewHolder(mContext,mLayoutInflater.inflate(R.layout.act_item,null));
         }
 
 
@@ -108,6 +112,63 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
         }else if(getItemViewType(position)==CHANNEL){
             ChannelViewHolder channelViewHolder = (ChannelViewHolder) viewHolder;
             channelViewHolder.setData(resultBean.getChannel_info());
+        }else if(getItemViewType(position)==ACT){
+            ActViewHolder actViewHolder = (ActViewHolder) viewHolder;
+            actViewHolder.setData(resultBean.getAct_info());
+        }
+    }
+
+    class ActViewHolder extends RecyclerView.ViewHolder{
+
+        private  Context mContext;
+        private ViewPager act_viewpager;
+        public ActViewHolder(Context mContext, View itemView) {
+            super(itemView);
+            this.mContext = mContext;
+            act_viewpager = itemView.findViewById(R.id.act_viewpager);
+        }
+
+        public void setData(final List<ResultBeanData.ResultBean.ActInfoBean> act_info) {
+            act_viewpager.setPageMargin(60);
+
+            //1有数据了
+            //2设置适配器
+            act_viewpager.setAdapter(new PagerAdapter() {
+                @Override
+                public int getCount() {
+                    return act_info.size();
+                }
+
+                @Override
+                public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+                    return view == object;
+                }
+
+                @NonNull
+                @Override
+                public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+                    ImageView imageView = new ImageView(mContext);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    Glide.with(mContext).load(Constants.BASE_URL_IMAGE+act_info.get(position).getIcon_url()).into(imageView);
+
+                    //添加到容器
+                    container.addView(imageView);
+                    //设置点击事件
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(mContext,"position=="+position,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    return imageView;
+                }
+
+                @Override
+                public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+                    container.removeView((View) object);
+                }
+            });
         }
     }
 
@@ -207,6 +268,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter {
      */
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
